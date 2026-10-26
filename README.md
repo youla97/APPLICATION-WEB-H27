@@ -1,36 +1,87 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Hadj 2027 Guinée — application web
 
-## Getting Started
+Prototype fonctionnel de la plateforme décrite dans le *Cahier des charges — Application Web Hadj 2027 Guinée* :
+inscription, paiement, suivi des dossiers et accompagnement des pèlerins, de la préinscription au retour.
 
-First, run the development server:
+## Lancer l'application
+
+Prérequis : **Node.js 22.13 ou plus récent** (la base SQLite intégrée `node:sqlite` est utilisée, aucune installation de base de données n'est nécessaire).
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Ouvrir http://localhost:3000. Au premier lancement, la base `data/hadj.db` est créée avec 140 pèlerins de démonstration.
+Pour repartir de zéro, arrêtez le serveur et supprimez le dossier `data/`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Production : `npm run build` puis `npm start`.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Comptes de démonstration
 
-## Learn More
+Connexion par **téléphone + code OTP** (le code s'affiche à l'écran comme s'il était reçu par SMS).
 
-To learn more about Next.js, take a look at the following resources:
+| Profil | Téléphone |
+|---|---|
+| Administrateur (SGAR / COGEP) | 620000001 |
+| Agent préfectoral (Kindia) | 620000002 |
+| Médecin | 620000003 |
+| Encadreur | 620000004 |
+| Agence agréée | 620000005 |
+| Pèlerin | tout autre numéro (ex. 622123456) crée un compte |
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Proche / parrain : page **Payer pour un proche** (`/payer`), sans compte, avec le numéro de dossier du pèlerin.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Parcours de démonstration conseillé
 
-## Deploy on Vercel
+1. Pèlerin : créer un compte, remplir les 5 étapes (le bouton « Scanner la page du passeport » simule la lecture MRZ), envoyer.
+2. Administrateur : *Dossiers → À traiter* → valider (ou rejeter avec un motif : le pèlerin corrige sans tout ressaisir).
+3. Pèlerin : payer une tranche (Orange Money / MTN MoMo / carte) → confirmation de l'opérateur en ~4 s → reçu avec QR code.
+4. Pèlerin : remplir la fiche santé. Médecin : déclarer « Apte ».
+5. Dès que le dossier est payé et apte, il passe **Complet** : vol, hôtels, tente et groupe sont affectés et le **badge QR** est disponible.
+6. *Programme des rites* → bouton **URGENCE** : l'alerte (avec position GPS) apparaît en direct chez l'encadreur et l'administrateur.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Ouvrez deux navigateurs différents (pèlerin / administrateur) pour voir les mises à jour **en temps réel** (indicateur « En direct »).
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Couverture du cahier des charges
+
+| Module | Réalisé dans le prototype |
+|---|---|
+| M1 Portail public | Accueil, compte à rebours, packages et tarifs, calendrier, actualités, FAQ, contact |
+| M2 Inscription | Compte par OTP, formulaire en 5 étapes, sauvegarde automatique, photo compressée (WebP), lecture MRZ avec clés de contrôle, numéro de dossier unique |
+| M3 Dossiers | 6 statuts, contrôle des pièces, détection des doublons (passeport, nom + date de naissance), motifs de rejet, historique |
+| M4 Paiements | Orange Money, MTN MoMo, carte/virement, tranches, reçu avec QR code, rapprochement automatique, remboursement |
+| M5 Espace pèlerin | Barre de progression 8 étapes, documents, notifications SMS/app, messagerie avec l'administration |
+| M6 Back-office | Validation, quotas par région (bloquants), agences (ajout, suspension), rôles, journal d'audit non modifiable |
+| M7 Santé | Fiche médicale, vaccin méningite obligatoire, certificat d'aptitude, suivi des pèlerins à risque |
+| M8 Logistique | Affectation automatique vol / hôtels La Mecque et Médine / tente Mina / bus / groupe, badge avec QR code |
+| M9 Accompagnement | Programme des rites jour par jour (hors ligne), carte interactive, consignes, SOS géolocalisé, appel du groupe, diffusion de consignes |
+| M10 Pilotage | Tableau de bord temps réel, statistiques par région, exports Excel (CSV) et liste passagers, satisfaction au retour |
+| Transverse | PWA installable, mode sombre, taille du texte, français / arabe (RTL), lecture vocale, vérification des documents par QR signé |
+
+## Ce qui est simulé
+
+Ces éléments sont simulés et devront être branchés sur les services réels :
+
+- **SMS / WhatsApp** : les messages sont enregistrés et affichés dans l'espace pèlerin ; le code OTP s'affiche à l'écran.
+- **Orange Money / MTN MoMo / banque** : la confirmation de l'opérateur (webhook) est simulée 4 secondes après l'initiation.
+- **Lecture du passeport** : l'analyse MRZ et ses clés de contrôle sont réelles, mais l'OCR de l'image est simulé.
+- **Messages vocaux en pular, malinké et soussou** : la lecture utilise la synthèse vocale du navigateur (français/arabe) ; les enregistrements dans les langues nationales restent à produire.
+- **Plateformes saoudiennes (Nusuk / Masar)** et **compagnie aérienne** : le prototype fournit seulement les exports CSV.
+- **PDF** : reçus, fiches et badges sont des pages imprimables (« Télécharger en PDF / imprimer »).
+
+## Architecture
+
+- **Next.js 16** (App Router, Server Components, Server Actions) + **TypeScript** + **Tailwind CSS 4**
+- **SQLite** (`node:sqlite`) dans `src/lib/db.ts`. Le schéma se transpose directement en **PostgreSQL**, comme le recommande le cahier des charges.
+- Temps réel par **Server-Sent Events** (`/api/events`) ; en production, remplacer le bus en mémoire (`src/lib/events.ts`) par Redis Pub/Sub.
+- Sessions par cookie `httpOnly`, contrôle d'accès par rôle côté serveur, QR codes signés par HMAC (variable `HADJ_QR_SECRET` à définir en production).
+
+```
+src/
+  app/            pages (portail, espace, admin, agent, medecin, encadreur, agence, accompagnement…)
+  app/actions/    actions serveur (auth, pèlerin, paiement, personnel)
+  app/api/        flux temps réel (SSE) et exports
+  components/     composants partagés (en-tête, suivi, paiement, messagerie…)
+  lib/            base de données, règles métier, i18n, MRZ, QR
+```

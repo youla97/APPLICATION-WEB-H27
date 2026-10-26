@@ -1,0 +1,13 @@
+{
+  "name": "Hadj 2027 Guinée",
+  "short_name": "Hadj 2027",
+  "description": "Inscription, paiement, suivi et accompagnement des pèlerins guinéens.",
+  "start_url": "/espace",
+  "display": "standalone",
+  "background_color": "#fdfaf3",
+  "theme_color": "#065f46",
+  "lang": "fr",
+  "icons": [
+    { "src": "/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}
