@@ -1,0 +1,14 @@
+# Déploiement Render (Blueprint) : l'application a besoin d'un serveur Node, pas d'un « Static Site ».
+services:
+  - type: web
+    name: application-web-h27
+    runtime: node
+    plan: free
+    buildCommand: npm ci && npm run build
+    startCommand: npm start
+    healthCheckPath: /
+    envVars:
+      - key: NODE_VERSION
+        value: "24"
+      - key: HADJ_QR_SECRET
+        generateValue: true

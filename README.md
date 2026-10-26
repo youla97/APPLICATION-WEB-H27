@@ -15,7 +15,20 @@ npm run dev
 Ouvrir http://localhost:3000. Au premier lancement, la base `data/hadj.db` est créée avec 140 pèlerins de démonstration.
 Pour repartir de zéro, arrêtez le serveur et supprimez le dossier `data/`.
 
-Production : `npm run build` puis `npm start`.
+Production : `npm run build` puis `npm start` (le port est lu dans la variable `PORT`).
+
+## Déploiement sur Render
+
+L'application a besoin d'un serveur Node : elle doit être déployée en **Web Service**, pas en *Static Site*
+(un Static Site affiche « Not Found »).
+
+- **Le plus simple :** sur Render, *New → Blueprint*, choisir ce dépôt. Le fichier `render.yaml` configure tout.
+- **À la main :** *New → Web Service*, runtime **Node**, build `npm ci && npm run build`, start `npm start`,
+  variables `NODE_VERSION=24` et `HADJ_QR_SECRET` (une longue valeur aléatoire).
+
+Sur l'offre gratuite, le disque est éphémère : la base de démonstration est recréée à chaque redémarrage
+ou redéploiement, et le service se met en veille après 15 min sans visite (premier chargement lent).
+Pour conserver les données, ajoutez un disque persistant monté sur `/opt/render/project/src/data`, ou passez à PostgreSQL.
 
 ## Comptes de démonstration
 
