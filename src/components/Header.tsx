@@ -5,7 +5,8 @@ import { getT } from "@/lib/lang";
 import { ROLES } from "@/lib/data";
 import { logout } from "@/app/actions/auth";
 import Prefs from "./Prefs";
-import Logo from "./Logo";
+import Image from "next/image";
+import { IMAGES } from "@/lib/images";
 
 const STAFF_LINKS: Record<string, { href: string; label: string }[]> = {
   admin: [
@@ -52,11 +53,13 @@ export default async function Header() {
     <header className="no-print sticky top-0 z-40 bg-emerald-900/95 text-white backdrop-blur supports-[backdrop-filter]:bg-emerald-900/85">
       <div className="flag-bar h-1" />
       <div className="mx-auto flex h-16 max-w-7xl items-center gap-3 px-4">
-        <Link href={user ? (ROLES[user.role]?.home ?? "/") : "/"} className="flex items-center gap-2.5 font-bold">
-          <Logo className="size-9" />
-          <span className="leading-tight">
-            <span className="block text-[15px]">{t.appName}</span>
-            <span className="block text-[11px] font-medium text-emerald-200/90">{user && user.role !== "pelerin" ? ROLES[user.role].label : "1448 H"}</span>
+        <Link href={user ? (ROLES[user.role]?.home ?? "/") : "/"} className="flex min-w-0 items-center gap-2.5 font-bold">
+          <Image src={IMAGES.armoiries.src} alt={IMAGES.armoiries.alt} width={285} height={320} priority className="h-11 w-auto drop-shadow" />
+          <span className="hidden min-w-0 leading-tight min-[420px]:block">
+            <span className="block truncate text-[15px]">{t.appName}</span>
+            <span className="block truncate text-[11px] font-medium text-emerald-200/90">
+              {user && user.role !== "pelerin" ? ROLES[user.role].label : "République de Guinée · 1448 H"}
+            </span>
           </span>
         </Link>
         <nav className="ms-6 hidden items-center gap-1 xl:flex" aria-label="Navigation principale">

@@ -2,6 +2,8 @@ import { getUser } from "@/lib/auth";
 import { getT } from "@/lib/lang";
 import { RITES, PLACES } from "@/lib/data";
 import ListenButton from "@/components/ListenButton";
+import Image from "next/image";
+import { IMAGES } from "@/lib/images";
 import HolyMap from "./HolyMap";
 import Sos from "./Sos";
 
@@ -11,7 +13,9 @@ export default async function Page() {
   const [user, { t }] = await Promise.all([getUser(), getT()]);
   return (
     <div className="mx-auto max-w-6xl px-4 py-8">
-      <div className="pattern rounded-3xl bg-gradient-to-br from-emerald-800 to-emerald-950 p-6 text-white sm:p-8">
+      <div className="pattern overflow-hidden rounded-3xl bg-emerald-950 p-6 text-white sm:p-8">
+        <Image src={IMAGES.arafat.src} alt="" fill priority sizes="(min-width: 1152px) 1120px, 100vw" className="-z-20 object-cover" />
+        <div className="absolute inset-0 -z-10 bg-gradient-to-r from-emerald-950/95 via-emerald-900/80 to-emerald-900/40" />
         <p className="text-sm font-semibold uppercase tracking-wider text-amber-300">Hadj accompagné</p>
         <h1 className="mt-1 text-3xl font-extrabold">{t.rites}</h1>
         <p className="mt-2 max-w-2xl text-emerald-50/80">Disponible hors ligne : une fois ouverte, cette page reste consultable sans Internet sur votre téléphone.</p>

@@ -9,6 +9,7 @@ export default function Footer() {
           <Link href="/verifier" className="hover:text-emerald-700">Vérifier un document</Link>
           <Link href="/accompagnement" className="hover:text-emerald-700">Guide du Hadj</Link>
           <Link href="/payer" className="hover:text-emerald-700">Payer pour un proche</Link>
+          <Link href="/credits" className="hover:text-emerald-700">Crédits photos</Link>
         </nav>
       </div>
     </footer>

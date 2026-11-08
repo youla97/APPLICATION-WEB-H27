@@ -8,6 +8,11 @@ import { gnf, dateFr } from "@/lib/format";
 import Countdown from "@/components/Countdown";
 import ListenButton from "@/components/ListenButton";
 import Footer from "@/components/Footer";
+import Institutions from "@/components/Institutions";
+import Image from "next/image";
+import { IMAGES } from "@/lib/images";
+
+const GALLERY = [IMAGES.mosquee, IMAGES.conakryEid, IMAGES.arafat];
 
 export const dynamic = "force-dynamic";
 
@@ -21,9 +26,11 @@ export default async function Home() {
   return (
     <>
       {/* Héros */}
-      <section className="pattern relative overflow-hidden bg-gradient-to-br from-emerald-950 via-emerald-900 to-emerald-800 text-white">
+      <section className="pattern relative overflow-hidden bg-emerald-950 text-white">
+        <Image src={IMAGES.kaaba.src} alt="" fill priority sizes="100vw" className="-z-20 object-cover" />
+        <div className="absolute inset-0 -z-10 bg-gradient-to-br from-emerald-950/95 via-emerald-900/85 to-emerald-900/55" />
         <div className="absolute -end-24 -top-24 size-96 rounded-full bg-amber-400/10 blur-3xl" />
-        <div className="relative mx-auto grid max-w-7xl gap-10 px-4 py-14 sm:py-20 lg:grid-cols-[1.2fr_1fr] lg:items-center">
+        <div className="relative mx-auto grid max-w-7xl grid-cols-[minmax(0,1fr)] gap-10 px-4 py-14 sm:py-20 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)] lg:items-center">
           <div className="animate-fade-up">
             <span className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 text-sm font-medium ring-1 ring-white/20">
               <span className="size-2 rounded-full bg-amber-400" /> Inscriptions à partir du 1er février 2027
@@ -42,7 +49,7 @@ export default async function Home() {
               <ListenButton text={`${t.heroTitle}. ${t.heroText}`} label={t.listen} lang={lang === "ar" ? "ar-SA" : "fr-FR"} />
             </div>
           </div>
-          <div className="animate-fade-up rounded-3xl bg-white/5 p-6 ring-1 ring-white/15 backdrop-blur [animation-delay:120ms]">
+          <div className="animate-fade-up rounded-3xl bg-white/5 p-4 ring-1 sm:p-6 ring-white/15 backdrop-blur [animation-delay:120ms]">
             <p className="text-sm font-semibold uppercase tracking-wider text-amber-300">{t.countdown}</p>
             <div className="mt-3">
               <Countdown target={HADJ_DATE} labels={t} />
@@ -78,6 +85,35 @@ export default async function Home() {
               <h3 className="mt-4 font-bold">{f.title}</h3>
               <p className="mt-1 text-sm text-stone-600 dark:text-stone-400">{f.text}</p>
             </div>
+          ))}
+        </div>
+      </section>
+
+      {/* La Guinée et le Hadj */}
+      <section className="mx-auto max-w-7xl px-4 pb-14">
+        <div className="flex flex-wrap items-end justify-between gap-2">
+          <div>
+            <h2 className="text-3xl font-extrabold tracking-tight">De Conakry à Arafat</h2>
+            <p className="mt-2 text-stone-600 dark:text-stone-400">La Guinée accompagne ses pèlerins de la mosquée de leur quartier jusqu&apos;aux lieux saints.</p>
+          </div>
+          <Link href="/credits" className="text-sm font-semibold text-emerald-700 hover:underline dark:text-emerald-400">Crédits photos</Link>
+        </div>
+        <div className="mt-6 grid gap-4 md:grid-cols-3">
+          {GALLERY.map((img, i) => (
+            <figure key={img.src} className={`group relative overflow-hidden rounded-2xl bg-stone-200 dark:bg-stone-800 ${i === 0 ? "md:col-span-2 md:row-span-2" : ""}`}>
+              <Image
+                src={img.src}
+                alt={img.alt}
+                width={1200}
+                height={800}
+                sizes={i === 0 ? "(min-width: 768px) 66vw, 100vw" : "(min-width: 768px) 33vw, 100vw"}
+                className={`w-full object-cover transition duration-700 group-hover:scale-105 ${i === 0 ? "aspect-[4/3] md:h-full" : "aspect-[4/3]"}`}
+              />
+              <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/75 to-transparent p-4 pt-10 text-white">
+                <span className="block font-bold">{img.caption}</span>
+                <span className="block text-[11px] text-white/75">© {img.author} · {img.license}</span>
+              </figcaption>
+            </figure>
           ))}
         </div>
       </section>
@@ -213,6 +249,7 @@ export default async function Home() {
           </div>
         </div>
       </section>
+      <Institutions />
       <Footer />
     </>
   );
