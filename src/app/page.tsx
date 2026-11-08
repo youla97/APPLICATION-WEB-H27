@@ -39,7 +39,10 @@ export default async function Home() {
       </section>
 
       {/* Héros */}
-      <section className="pattern relative overflow-hidden bg-gradient-to-b from-emerald-950 via-emerald-900 to-emerald-800 text-white">
+      <section className="pattern relative overflow-hidden bg-emerald-950 text-white">
+        <Image src={IMAGES.mosquee.src} alt="" fill sizes="100vw" className="-z-20 object-cover object-center" />
+        {/* Voile : plus dense sous le texte (gauche, et partout sur mobile) pour garder un contraste AA */}
+        <div className="absolute inset-0 -z-10 bg-gradient-to-r from-emerald-950/90 via-emerald-950/75 to-emerald-950/55 lg:to-emerald-900/30" />
         <div className="absolute -end-24 -top-24 size-96 rounded-full bg-amber-400/10 blur-3xl" />
         <div className="relative mx-auto grid max-w-7xl grid-cols-[minmax(0,1fr)] gap-10 px-4 py-14 sm:py-20 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)] lg:items-center">
           <div className="animate-fade-up">
@@ -78,6 +81,9 @@ export default async function Home() {
             </div>
           </div>
         </div>
+        <p className="absolute end-3 bottom-2 text-[10px] text-white/55">
+          {IMAGES.mosquee.caption} · © {IMAGES.mosquee.author}, {IMAGES.mosquee.license}
+        </p>
       </section>
 
       {/* Atouts */}
