@@ -25,10 +25,21 @@ export default async function Home() {
 
   return (
     <>
+      {/* Bannière Hadj 2027 sous la barre de navigation */}
+      <section className="relative isolate h-56 overflow-hidden bg-emerald-950 sm:h-72 lg:h-[22rem]" aria-label="Hadj 2027">
+        <Image src={IMAGES.kaaba.src} alt={IMAGES.kaaba.alt} fill priority sizes="100vw" className="banner-zoom -z-20 object-cover object-[50%_60%]" />
+        <div className="absolute inset-0 -z-10 bg-gradient-to-t from-emerald-950 via-emerald-950/20 to-black/10" />
+        <div className="mx-auto flex h-full max-w-7xl flex-col justify-end px-4 pb-6 text-white">
+          <p dir="rtl" lang="ar" className="self-start text-xl font-bold text-amber-300 drop-shadow sm:text-2xl">لَبَّيْكَ اللَّهُمَّ لَبَّيْكَ</p>
+          <p className="mt-1 text-3xl font-extrabold tracking-tight drop-shadow-lg sm:text-5xl">Hadj 2027 · 1448 H</p>
+          <p className="mt-1 text-sm text-white/80">
+            La Mecque · Mina · Arafat · Médine — <span className="text-white/60">© {IMAGES.kaaba.author}, {IMAGES.kaaba.license}</span>
+          </p>
+        </div>
+      </section>
+
       {/* Héros */}
-      <section className="pattern relative overflow-hidden bg-emerald-950 text-white">
-        <Image src={IMAGES.kaaba.src} alt="" fill priority sizes="100vw" className="-z-20 object-cover" />
-        <div className="absolute inset-0 -z-10 bg-gradient-to-br from-emerald-950/95 via-emerald-900/85 to-emerald-900/55" />
+      <section className="pattern relative overflow-hidden bg-gradient-to-b from-emerald-950 via-emerald-900 to-emerald-800 text-white">
         <div className="absolute -end-24 -top-24 size-96 rounded-full bg-amber-400/10 blur-3xl" />
         <div className="relative mx-auto grid max-w-7xl grid-cols-[minmax(0,1fr)] gap-10 px-4 py-14 sm:py-20 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)] lg:items-center">
           <div className="animate-fade-up">

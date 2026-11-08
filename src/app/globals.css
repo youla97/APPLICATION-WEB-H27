@@ -85,6 +85,13 @@ body {
   @apply border-t border-stone-100 px-3 py-2.5 align-middle dark:border-stone-800;
 }
 
+/* Léger zoom lent de la bannière (désactivé si l'utilisateur réduit les animations) */
+@keyframes banner-zoom {
+  from { transform: scale(1.08); }
+  to { transform: scale(1); }
+}
+.banner-zoom { animation: banner-zoom 9s ease-out both; }
+
 @media print {
   .no-print { display: none !important; }
   body { background: white !important; color: black !important; }
